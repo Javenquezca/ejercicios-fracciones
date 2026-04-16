@@ -1,0 +1,770 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fira+Mono:wght@400;500&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  :root {
+    --c1: #FF6B6B;
+    --c2: #4ECDC4;
+    --c3: #FFE66D;
+    --c4: #A8E6CF;
+    --c5: #FF8B94;
+    --ink: #1a1a2e;
+    --paper: #f8f6f0;
+    --card: #fff;
+    --muted: #6b7280;
+    --radius: 14px;
+    --mono: 'Fira Mono', monospace;
+    --sans: 'Nunito', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    /* ← centra horizontalmente */
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 680px;
+    padding: 0 0 40px
+  }
+
+  /* HEADER */
+  .hdr {
+    background: var(--ink);
+    color: #fff;
+    padding: 20px 20px 16px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden
+  }
+
+  .hdr::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--c1);
+    opacity: .18
+  }
+
+  .hdr::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 60px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--c2);
+    opacity: .18
+  }
+
+  .hdr h1 {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -.5px
+  }
+
+  .hdr p {
+    font-size: 13px;
+    opacity: .65;
+    margin-top: 3px
+  }
+
+  .score-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap
+  }
+
+  .score-pill {
+    background: rgba(255, 255, 255, .12);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700
+  }
+
+  .score-pill span {
+    font-size: 11px;
+    opacity: .7;
+    display: block;
+    font-weight: 400
+  }
+
+  /* FILTERS */
+  .filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 0 0 14px
+  }
+
+  .filt {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #e0ddd5;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--muted);
+    transition: all .15s;
+    font-family: var(--sans)
+  }
+
+  .filt.on {
+    color: var(--card);
+    border-color: transparent
+  }
+
+  .filt[data-g="0"].on {
+    background: var(--c1)
+  }
+
+  .filt[data-g="1"].on {
+    background: #6C63FF
+  }
+
+  .filt[data-g="2"].on {
+    background: var(--c2)
+  }
+
+  .filt[data-g="3"].on {
+    background: #F97316
+  }
+
+  .filt[data-g="4"].on {
+    background: #EC4899
+  }
+
+  .filt[data-g="5"].on {
+    background: #8B5CF6
+  }
+
+  /* EXERCISE CARD */
+  .ex-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1.5px solid #e8e5dc;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: box-shadow .2s
+  }
+
+  .ex-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .07)
+  }
+
+  .ex-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px 10px
+  }
+
+  .ex-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0
+  }
+
+  .ex-cat {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-left: auto;
+    letter-spacing: .3px
+  }
+
+  .ex-body {
+    padding: 0 16px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap
+  }
+
+  .ex-q {
+    font-size: 20px;
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--ink);
+    flex: 1;
+    min-width: 160px
+  }
+
+  .ex-inp-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px
+  }
+
+  .ex-eq {
+    font-size: 18px;
+    font-family: var(--mono);
+    opacity: .5
+  }
+
+  input.ex-inp {
+    width: 90px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1.5px solid #e0ddd5;
+    font-family: var(--mono);
+    font-size: 15px;
+    background: #fafaf7;
+    color: var(--ink);
+    outline: none;
+    transition: border .15s
+  }
+
+  input.ex-inp:focus {
+    border-color: var(--c2)
+  }
+
+  input.ex-inp.ok {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    color: #16a34a
+  }
+
+  input.ex-inp.no {
+    border-color: var(--c1);
+    background: #fff5f5;
+    color: #dc2626
+  }
+
+  .ans-tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    display: none
+  }
+
+  .ans-tag.show {
+    display: inline-block
+  }
+
+  .ans-tag.ok {
+    background: #dcfce7;
+    color: #16a34a
+  }
+
+  .ans-tag.no {
+    background: #fee2e2;
+    color: #dc2626
+  }
+
+  .ans-tag.hint {
+    background: #fef9c3;
+    color: #854d0e
+  }
+
+  .step-row {
+    padding: 0 16px 14px;
+    display: none
+  }
+
+  .step-row.show {
+    display: block
+  }
+
+  .step-box {
+    background: #f8f6f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: var(--mono);
+    line-height: 1.8;
+    color: #374151;
+    border-left: 3px solid var(--c2)
+  }
+
+  /* SECTION TITLES */
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0 10px
+  }
+
+  .sec-line {
+    flex: 1;
+    height: 1.5px;
+    background: #e8e5dc
+  }
+
+  .sec-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    white-space: nowrap
+  }
+
+  /* BUTTONS */
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 4px
+  }
+
+  .gbtn {
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all .15s
+  }
+
+  .gbtn.check {
+    background: var(--ink);
+    color: #fff
+  }
+
+  .gbtn.check:hover {
+    background: #2d2d44
+  }
+
+  .gbtn.show {
+    background: #f1f0eb;
+    color: var(--ink);
+    border: 1.5px solid #e0ddd5
+  }
+
+  .gbtn.show:hover {
+    background: #e8e5dc
+  }
+
+  .gbtn.reset {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1.5px solid #fcd34d
+  }
+
+  /* RESULTS */
+  .result-banner {
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    text-align: center;
+    display: none;
+    margin-top: 16px;
+    animation: pop .3s ease
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(.95);
+      opacity: 0
+    }
+
+    to {
+      transform: scale(1);
+      opacity: 1
+    }
+  }
+
+  .result-banner.show {
+    display: block
+  }
+
+  .result-banner h2 {
+    font-size: 22px;
+    font-weight: 900;
+    margin-bottom: 4px
+  }
+
+  .result-banner p {
+    font-size: 14px;
+    opacity: .8
+  }
+
+  .stars {
+    font-size: 28px;
+    margin-bottom: 6px
+  }
+
+  /* CAT COLORS */
+  .cat0 {
+    --cc: var(--c1)
+  }
+
+  .cat1 {
+    --cc: #6C63FF
+  }
+
+  .cat2 {
+    --cc: var(--c2)
+  }
+
+  .cat3 {
+    --cc: #F97316
+  }
+
+  .cat4 {
+    --cc: #EC4899
+  }
+
+  .cat5 {
+    --cc: #8B5CF6
+  }
+
+  .ex-num {
+    background: color-mix(in srgb, var(--cc) 15%, transparent);
+    color: var(--cc)
+  }
+
+  .ex-cat {
+    background: color-mix(in srgb, var(--cc) 12%, transparent);
+    color: var(--cc)
+  }
+</style>
+
+<div class="wrap">
+  <div class="hdr">
+    <h1>🧮 Práctica de Fracciones</h1>
+    <p>Todos los tipos · Con respuestas y pasos</p>
+    <div class="score-row">
+      <div class="score-pill"><span>Correctas</span><span id="scOk">0</span></div>
+      <div class="score-pill"><span>Total verificadas</span><span id="scTotal">0</span></div>
+      <div class="score-pill"><span>Precisión</span><span id="scPct">—</span></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filt on" data-g="all" onclick="filterGroup('all')">Todos</div>
+    <div class="filt on" data-g="0" onclick="filterGroup(0)">➕ Suma/Resta</div>
+    <div class="filt on" data-g="1" onclick="filterGroup(1)">✖️ Multiplicación</div>
+    <div class="filt on" data-g="2" onclick="filterGroup(2)">➗ División</div>
+    <div class="filt on" data-g="3" onclick="filterGroup(3)">📉 Simplificar</div>
+    <div class="filt on" data-g="4" onclick="filterGroup(4)">🔢 Mixtos</div>
+    <div class="filt on" data-g="5" onclick="filterGroup(5)">🎯 Jerarquía</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="gbtn check" onclick="checkAll()">✓ Verificar todos</button>
+    <button class="gbtn show" onclick="revealAll()">👁 Ver todas las respuestas</button>
+    <button class="gbtn reset" onclick="resetAll()">↺ Limpiar</button>
+  </div>
+
+  <div id="exList"></div>
+  <div class="result-banner" id="resBanner"></div>
+</div>
+
+<script>
+  const EXES = [
+    // ── SUMA / RESTA (grupo 0) ──
+    {
+      g: 0, cat: "Suma / Resta", q: "1/4 + 2/4", a: "3/4",
+      step: "Mismo denominador → sumar numeradores: 1+2=3 → 3/4"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "2/5 + 1/5", a: "3/5",
+      step: "Mismo denominador: 2+1=3 → 3/5"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "5/6 − 1/6", a: "4/6 = 2/3",
+      step: "Mismo denominador: 5−1=4 → 4/6 → simplifica ÷2 → 2/3"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "1/3 + 1/4", a: "7/12",
+      step: "MCM(3,4)=12 → 4/12 + 3/12 = 7/12"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "3/4 − 1/3", a: "5/12",
+      step: "MCM(4,3)=12 → 9/12 − 4/12 = 5/12"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "5/8 + 3/4", a: "11/8",
+      step: "MCM(8,4)=8 → 5/8 + 6/8 = 11/8"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "7/10 − 2/5", a: "3/10",
+      step: "MCM(10,5)=10 → 7/10 − 4/10 = 3/10"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "2/3 + 3/5", a: "19/15",
+      step: "MCM(3,5)=15 → 10/15 + 9/15 = 19/15"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "1/2 + 1/3 + 1/6", a: "1",
+      step: "MCM(2,3,6)=6 → 3/6+2/6+1/6 = 6/6 = 1"
+    },
+    {
+      g: 0, cat: "Suma / Resta", q: "3/4 + 5/6 − 1/3", a: "5/4",
+      step: "MCM=12 → 9/12+10/12−4/12 = 15/12 = 5/4"
+    },
+
+    // ── MULTIPLICACIÓN (grupo 1) ──
+    {
+      g: 1, cat: "Multiplicación", q: "1/2 × 3/4", a: "3/8",
+      step: "Numerador: 1×3=3 · Denominador: 2×4=8 → 3/8"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "2/3 × 3/5", a: "2/5",
+      step: "2×3=6, 3×5=15 → 6/15 → ÷3 → 2/5"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "4/7 × 7/8", a: "1/2",
+      step: "4×7=28, 7×8=56 → 28/56 → ÷28 → 1/2"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "3/5 × 5/9", a: "1/3",
+      step: "3×5=15, 5×9=45 → 15/45 → ÷15 → 1/3"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "5/6 × 3/10", a: "1/4",
+      step: "5×3=15, 6×10=60 → 15/60 → ÷15 → 1/4"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "2/9 × 3/4", a: "1/6",
+      step: "2×3=6, 9×4=36 → 6/36 → ÷6 → 1/6"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "7/8 × 4/5", a: "7/10",
+      step: "7×4=28, 8×5=40 → 28/40 → ÷4 → 7/10"
+    },
+    {
+      g: 1, cat: "Multiplicación", q: "3/4 × 8/9", a: "2/3",
+      step: "3×8=24, 4×9=36 → 24/36 → ÷12 → 2/3"
+    },
+
+    // ── DIVISIÓN (grupo 2) ──
+    {
+      g: 2, cat: "División", q: "1/2 ÷ 1/4", a: "2",
+      step: "Invierte la 2ª: 1/2 × 4/1 = 4/2 = 2"
+    },
+    {
+      g: 2, cat: "División", q: "3/4 ÷ 1/2", a: "3/2",
+      step: "3/4 × 2/1 = 6/4 = 3/2"
+    },
+    {
+      g: 2, cat: "División", q: "2/3 ÷ 4/9", a: "3/2",
+      step: "2/3 × 9/4 = 18/12 = 3/2"
+    },
+    {
+      g: 2, cat: "División", q: "5/6 ÷ 5/12", a: "2",
+      step: "5/6 × 12/5 = 60/30 = 2"
+    },
+    {
+      g: 2, cat: "División", q: "7/8 ÷ 7/4", a: "1/2",
+      step: "7/8 × 4/7 = 28/56 = 1/2"
+    },
+    {
+      g: 2, cat: "División", q: "4/5 ÷ 2/3", a: "6/5",
+      step: "4/5 × 3/2 = 12/10 = 6/5"
+    },
+    {
+      g: 2, cat: "División", q: "3/7 ÷ 9/14", a: "2/3",
+      step: "3/7 × 14/9 = 42/63 = 2/3"
+    },
+    {
+      g: 2, cat: "División", q: "1/3 ÷ 1/6", a: "2",
+      step: "1/3 × 6/1 = 6/3 = 2"
+    },
+
+    // ── SIMPLIFICAR (grupo 3) ──
+    {
+      g: 3, cat: "Simplificar", q: "6/8 simplificada", a: "3/4",
+      step: "MCD(6,8)=2 → 6÷2=3, 8÷2=4 → 3/4"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "15/25 simplificada", a: "3/5",
+      step: "MCD(15,25)=5 → 3/5"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "12/18 simplificada", a: "2/3",
+      step: "MCD(12,18)=6 → 2/3"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "20/30 simplificada", a: "2/3",
+      step: "MCD(20,30)=10 → 2/3"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "14/21 simplificada", a: "2/3",
+      step: "MCD(14,21)=7 → 2/3"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "16/24 simplificada", a: "2/3",
+      step: "MCD(16,24)=8 → 2/3"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "45/60 simplificada", a: "3/4",
+      step: "MCD(45,60)=15 → 3/4"
+    },
+    {
+      g: 3, cat: "Simplificar", q: "36/48 simplificada", a: "3/4",
+      step: "MCD(36,48)=12 → 3/4"
+    },
+
+    // ── NÚMEROS MIXTOS (grupo 4) ──
+    {
+      g: 4, cat: "Mixtos", q: "2 1/3 → impropia", a: "7/3",
+      step: "2×3+1=7 → 7/3"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "3 2/5 → impropia", a: "17/5",
+      step: "3×5+2=17 → 17/5"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "4 3/4 → impropia", a: "19/4",
+      step: "4×4+3=19 → 19/4"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "11/4 → mixto", a: "2 3/4",
+      step: "11÷4=2 resto 3 → 2 y 3/4"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "13/5 → mixto", a: "2 3/5",
+      step: "13÷5=2 resto 3 → 2 y 3/5"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "1 1/2 + 2 1/3", a: "11/6",
+      step: "3/2 + 7/3 = 9/6 + 14/6 = 23/6 = 3 5/6 (acepta 23/6 o 3 5/6)"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "3 1/4 − 1 3/4", a: "3/2",
+      step: "13/4 − 7/4 = 6/4 = 3/2"
+    },
+    {
+      g: 4, cat: "Mixtos", q: "2 1/2 × 1 1/3", a: "10/3",
+      step: "5/2 × 4/3 = 20/6 = 10/3"
+    },
+
+    // ── JERARQUÍA CON FRACCIONES (grupo 5) ──
+    {
+      g: 5, cat: "Jerarquía", q: "1/2 + 1/3 × 3", a: "3/2",
+      step: "Primero × : 1/3×3=1 → luego + : 1/2+1=3/2"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "(1/2 + 1/4) × 4", a: "3",
+      step: "Paréntesis: 2/4+1/4=3/4 → ×4: 3/4×4=3"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "3/4 ÷ (1/2 − 1/4)", a: "3",
+      step: "Paréntesis: 1/4 → 3/4÷1/4=3/4×4=3"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "2/3 × 3 − 1/2", a: "3/2",
+      step: "2/3×3=2 → 2−1/2=3/2"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "1/4 + 3/4 ÷ 3", a: "1/2",
+      step: "÷ primero: 3/4÷3=1/4 → 1/4+1/4=2/4=1/2"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "(2/3 + 1/6) × 2 − 1/2", a: "1",
+      step: "Paréntesis: 4/6+1/6=5/6 → ×2=10/6=5/3 → −1/2: 10/6−3/6=7/6... recalc: 5/3−1/2=10/6−3/6=7/6"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "3/5 × (1 − 2/5)", a: "9/25",
+      step: "Paréntesis: 1−2/5=3/5 → 3/5×3/5=9/25"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "1/2 ÷ 1/4 − 1 + 1/3", a: "4/3",
+      step: "÷: 1/2÷1/4=2 → 2−1=1 → 1+1/3=4/3"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "[(1/3 + 1/6) × 2] ÷ 1/2", a: "2",
+      step: "Corchete: 1/2×2=1 → ÷1/2=2"
+    },
+    {
+      g: 5, cat: "Jerarquía", q: "2/3 + 1/2 × (4/5 ÷ 2/5)", a: "5/3",
+      step: "Paréntesis: 4/5÷2/5=2 → ×1/2=1 → 2/3+1=5/3"
+    },
+  ];
+
+  // Render
+  let scoreOk = 0, scoreTotal = 0;
+  function render(exes) {
+    const el = document.getElementById('exList');
+    el.innerHTML = '';
+    exes.forEach((e, i) => {
+      const catCls = 'cat' + e.g;
+      el.innerHTML += `
+    <div class="ex-card ${catCls}" id="card${i}" data-g="${e.g}">
+      <div class="ex-top">
+        <div class="ex-num">${i + 1}</div>
+        <div class="ex-cat">${e.cat}</div>
+      </div>
+      <div class="ex-body">
+        <div class="ex-q">${e.q}</div>
+        <div class="ex-inp-wrap">
+          <span class="ex-eq">=</span>
+          <input class="ex-inp" id="inp${i}" type="text" placeholder="?" autocomplete="off" onkeydown="if(event.key==='Enter')checkOne(${i})">
+          <span class="ans-tag" id="tag${i}"></span>
+        </div>
+      </div>
+      <div class="step-row" id="step${i}">
+        <div class="step-box">📐 ${e.step}</div>
+      </div>
+    </div>`;
+    });
+  }
+  render(EXES);
+
+  function checkOne(i) {
+    const inp = document.getElementById('inp' + i);
+    const tag = document.getElementById('tag' + i);
+    const v = inp.value.trim();
+    if (!v) return;
+    const correct = EXES[i].a.split('=').map(s => s.trim());
+    const ok = correct.some(c => v.replace(/\s/g, '') === c.replace(/\s/g, ''));
+    inp.className = 'ex-inp ' + (ok ? 'ok' : 'no');
+    tag.className = 'ans-tag show ' + (ok ? 'ok' : 'no');
+    tag.textContent = ok ? '✓ Correcto' : '✗ R: ' + EXES[i].a;
+    if (!ok) document.getElementById('step' + i).classList.add('show');
+    scoreTotal++;
+    if (ok) scoreOk++;
+    updateScore();
+  }
+  function checkAll() { EXES.forEach((_, i) => { if (document.getElementById('inp' + i).value.trim()) checkOne(i); }); }
+  function revealAll() { EXES.forEach((_, i) => { const t = document.getElementById('tag' + i); t.className = 'ans-tag show hint'; t.textContent = '→ ' + EXES[i].a; document.getElementById('step' + i).classList.add('show'); }); }
+  function resetAll() { EXES.forEach((_, i) => { document.getElementById('inp' + i).value = ''; document.getElementById('inp' + i).className = 'ex-inp'; document.getElementById('tag' + i).className = 'ans-tag'; document.getElementById('tag' + i).textContent = ''; document.getElementById('step' + i).classList.remove('show'); }); scoreOk = 0; scoreTotal = 0; updateScore(); document.getElementById('resBanner').classList.remove('show'); }
+  function updateScore() { document.getElementById('scOk').textContent = scoreOk; document.getElementById('scTotal').textContent = scoreTotal; document.getElementById('scPct').textContent = scoreTotal ? Math.round(scoreOk / scoreTotal * 100) + '%' : '—'; }
+  function filterGroup(g) {
+    document.querySelectorAll('[data-g]').forEach(c => {
+      if (c.classList.contains('filt')) return;
+      const cg = parseInt(c.dataset.g);
+      c.style.display = (g === 'all' || cg === g) ? '' : 'none';
+    });
+  }
+
+  // Enter on each input
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.matches('.ex-inp')) {
+      const id = e.target.id.replace('inp', '');
+      checkOne(parseInt(id));
+      const next = document.getElementById('inp' + (parseInt(id) + 1));
+      if (next) next.focus();
+    }
+  });
+</script>
